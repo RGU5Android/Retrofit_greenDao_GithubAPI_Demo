@@ -17,6 +17,8 @@ import com.rgu5android.retrofit.greendao.github.api.demo.greenDAO.GithubGDDao;
 import com.rgu5android.retrofit.greendao.github.api.demo.retrofit.GithubModel;
 import com.rgu5android.retrofit.greendao.github.api.demo.retrofit.IGithubInterface;
 
+import java.util.List;
+
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -65,6 +67,12 @@ public class GithubFragment extends Fragment implements View.OnClickListener, Ca
         DaoSession daoSession = daoMaster.newSession();
 
         GithubGDDao githubGDDao = daoSession.getGithubGDDao();
+        List<GithubGD> githubGDs =
+                githubGDDao.queryBuilder().where(GithubGDDao.Properties.Email.eq("RGU5Android@gmail.com"))
+                        .orderAsc(GithubGDDao.Properties.Id).list();
+
+        Log.wtf("Select Query Output:", githubGDs.toString());
+
         githubGDDao.deleteAll();
 
         for (int i = 0; i < 10; i++) {
